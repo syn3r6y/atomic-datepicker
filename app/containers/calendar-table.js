@@ -27,15 +27,11 @@ class CalendarTable extends React.Component {
             const days = row.map( (day, index) => {
                 if(day == ''){
                     return (
-                      <View style={[styles.day, {width: this.state.cellWidth}]} key={index}>
-                        <Text style={{textAlign: 'center'}}></Text>
-                      </View>
+                      <CalendarCell width={this.state.cellWidth} key={index}/>
                     );
                 } else{
                     return (
-                      <View style={[styles.day, {width: this.state.cellWidth}]} key={index}>
-                        <Text style={{textAlign: 'center'}}>{day}</Text>
-                      </View>
+                      <CalendarCell width={this.state.cellWidth} key={index} text={day.toString()}/>
                     );
                 }
             });
@@ -44,7 +40,7 @@ class CalendarTable extends React.Component {
 
         return (
             <View>
-                <View style={styles.dayRow} onLayout={(e) => {
+                <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
                   const {x, y, width, height} = e.nativeEvent.layout
                   this.setState({
                     cellWidth: width / 7,
@@ -65,6 +61,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDEDED',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  titleBar:{
     paddingVertical: 20
   },
   day:{
