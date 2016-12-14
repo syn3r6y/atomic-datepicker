@@ -14,8 +14,11 @@ class CalendarTable extends React.Component {
 
         this.state = {
             days: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
-            cellWidth: 0
+            cellWidth: 0,
+            selectedCell: 0,
         };
+
+        this.onCellSelected = this.onCellSelected.bind(this);
     }
 
     render() {
@@ -27,11 +30,21 @@ class CalendarTable extends React.Component {
             const days = row.map( (day, index) => {
                 if(day == ''){
                     return (
-                      <CalendarCell width={this.state.cellWidth} key={index}/>
+                      <CalendarCell
+                        width={this.state.cellWidth}
+                        key={index}
+                        disabled={true}
+                      />
                     );
                 } else{
                     return (
-                      <CalendarCell width={this.state.cellWidth} key={index} text={day.toString()}/>
+                      <CalendarCell
+                        width={this.state.cellWidth}
+                        key={index}
+                        text={day.toString()}
+                        selected={day == this.state.selectedCell ? true : false}
+                        onClick={this.onCellSelected}
+                      />
                     );
                 }
             });
@@ -39,7 +52,7 @@ class CalendarTable extends React.Component {
         } );
 
         return (
-            <View>
+            <View style={{padding: 10}}>
                 <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
                   const {x, y, width, height} = e.nativeEvent.layout
                   this.setState({
@@ -48,11 +61,15 @@ class CalendarTable extends React.Component {
                 }}>
                     {dayTitles}
                 </View>
-
                 {dateRows}
-
             </View>
         );
+    }
+
+    onCellSelected(value){
+      this.setState({
+        selectedCell: value,
+      });
     }
 }
 
