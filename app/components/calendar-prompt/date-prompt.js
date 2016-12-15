@@ -16,9 +16,9 @@ class DatePrompt extends React.Component {
         opacity: this.props.visibility,
         height: 60,
         position: 'absolute',
-        top: this.props.yPos,
+        top: this.props.activeRowNumber >= 2 ? this.props.yPos - 130 : this.props.yPos,
         left: Dimensions.get('window').width * 0.125 - 10,
-        zIndex: 10,
+        zIndex: this.props.zIndex,
         backgroundColor: '#FFF',
         shadowColor: '#000',
         shadowOffset: {
@@ -42,6 +42,7 @@ class DatePrompt extends React.Component {
         <ButtonPrompt
           imageSrc={require('../../assets/icon-prompt-close.png')}
           btnStyle={styles.buttonPrompt}
+          btnClick={this.props.onClose}
         />
         <TextPrompt
           text={this.props.text}
@@ -59,6 +60,9 @@ DatePrompt.propTypes = {
   visibility: PropTypes.number,
   yPos: PropTypes.number,
   text: PropTypes.string,
+  onClose: PropTypes.func,
+  zIndex: PropTypes.number,
+  activeRowNumber: PropTypes.number,
 };
 
 export default DatePrompt;

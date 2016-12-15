@@ -21,9 +21,12 @@ class CalendarTable extends React.Component {
             tableDateHeight: 0,
             promptVisibility: 0,
             activeRowPos: 0,
+            activeRowNumber: 0,
+            zIndex: 0,
         };
 
         this.onCellSelected = this.onCellSelected.bind(this);
+        this.closePrompt = this.closePrompt.bind(this);
     }
 
     render() {
@@ -67,21 +70,24 @@ class CalendarTable extends React.Component {
 
         return (
             <View style={{padding: 10}}>
-                <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
-                  const {x, y, width, height} = e.nativeEvent.layout;
-                  this.setState({
-                    cellWidth: width / 7,
-                    titleHeight: height,
-                  });
-                }}>
-                    {dayTitles}
-                </View>
-                {dateRows}
-                <DatePrompt
-                  visibility={this.state.promptVisibility}
-                  yPos={this.state.activeRowPos}
-                  text={`${this.props.month} ${this.state.selectedCell}, ${this.props.year}`}
-                />
+              <DatePrompt
+                visibility={this.state.promptVisibility}
+                yPos={this.state.activeRowPos}
+                text={`${this.props.month} ${this.state.selectedCell}, ${this.props.year}`}
+                onClose={this.closePrompt}
+                zIndex={this.state.zIndex}
+                activeRowNumber={this.state.activeRowNumber}
+              />
+              <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
+                const {x, y, width, height} = e.nativeEvent.layout;
+                this.setState({
+                  cellWidth: width / 7,
+                  titleHeight: height,
+                });
+              }}>
+                  {dayTitles}
+              </View>
+              {dateRows}
             </View>
         );
     }
@@ -96,6 +102,15 @@ class CalendarTable extends React.Component {
         selectedCell: dateValue,
         activeRowPos: topPos,
         promptVisibility: 1,
+        zIndex: 10,
+        activeRowNumber: rowIndex,
+      });
+    }
+
+    closePrompt(){
+      this.setState({
+        promptVisibility: 0,
+        zIndex: 0,
       });
     }
 }
