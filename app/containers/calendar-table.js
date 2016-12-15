@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import CalendarCell from '../components/calendar-table/calendar-cell';
+import DatePrompt from '../components/calendar-prompt/date-prompt';
 
 class CalendarTable extends React.Component {
     constructor(props){
@@ -15,7 +16,11 @@ class CalendarTable extends React.Component {
         this.state = {
             days: ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'],
             cellWidth: 0,
+            titleHeight: 0,
             selectedCell: 0,
+            tableDateHeight: 0,
+            promptVisibility: 0,
+            activeRowPos: 0,
         };
 
         this.onCellSelected = this.onCellSelected.bind(this);
@@ -26,13 +31,14 @@ class CalendarTable extends React.Component {
         const dayTitles = state.days.map( (day, index) => {
             return <View key={index} style={[styles.day, {width: this.state.cellWidth}]}><Text style={{textAlign: 'center'}}>{ day.substring(0,3) }</Text></View>;
         });
-        const dateRows = this.props.days.map( (row, index) => {
+        const dateRows = this.props.days.map( (row, rowIndex) => {
             const days = row.map( (day, index) => {
                 if(day == ''){
                     return (
                       <CalendarCell
                         width={this.state.cellWidth}
                         key={index}
+                        row={rowIndex}
                         disabled={true}
                       />
                     );
@@ -41,6 +47,7 @@ class CalendarTable extends React.Component {
                       <CalendarCell
                         width={this.state.cellWidth}
                         key={index}
+                        row={rowIndex}
                         text={day.toString()}
                         selected={day == this.state.selectedCell ? true : false}
                         onClick={this.onCellSelected}
@@ -48,27 +55,47 @@ class CalendarTable extends React.Component {
                     );
                 }
             });
-            return <View style={styles.dayRow} key={index}>{days}</View>;
+            return <View style={styles.dayRow} key={rowIndex} onLayout={(e) => {
+              if(rowIndex === 0){
+                const {x, y, width, height} = e.nativeEvent.layout;
+                this.setState({
+                  tableDateHeight: height,
+                })
+              }
+            }}>{days}</View>;
         } );
 
         return (
             <View style={{padding: 10}}>
                 <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
-                  const {x, y, width, height} = e.nativeEvent.layout
+                  const {x, y, width, height} = e.nativeEvent.layout;
                   this.setState({
                     cellWidth: width / 7,
+                    titleHeight: height,
                   });
                 }}>
                     {dayTitles}
                 </View>
                 {dateRows}
+                <DatePrompt
+                  visibility={this.state.promptVisibility}
+                  yPos={this.state.activeRowPos}
+                  text={`${this.props.month} ${this.state.selectedCell}, ${this.props.year}`}
+                />
             </View>
         );
     }
 
-    onCellSelected(value){
+    onCellSelected(dateValue, rowIndex){
+      const state = {...this.state};
+      const row = rowIndex + 1;
+      const topPos = state.tableDateHeight * row + state.titleHeight + 20;
+
+
       this.setState({
-        selectedCell: value,
+        selectedCell: dateValue,
+        activeRowPos: topPos,
+        promptVisibility: 1,
       });
     }
 }
@@ -86,5 +113,10 @@ const styles = StyleSheet.create({
     // backgroundColor: '#CCC',
   },
 });
+
+CalendarTable.propTypes = {
+  month: PropTypes.string,
+  year: PropTypes.string,
+};
 
 export default CalendarTable;

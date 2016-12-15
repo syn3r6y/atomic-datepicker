@@ -50,7 +50,11 @@ class Calendar extends React.Component {
                 nextYearClick={this.nextYear}
                 previousYearClick={this.previousYear}
               />
-              <CalendarTable days={this.state.dateDays}/>
+              <CalendarTable
+                days={this.state.dateDays}
+                month={this.state.currentMonth}
+                year={this.state.currentYear.toString()}
+              />
           </View>
       );
   }

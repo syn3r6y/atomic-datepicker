@@ -29,7 +29,7 @@ class CalendarCell extends React.Component {
     });
 
     return (
-      <TouchableOpacity onPress={() => this.props.onClick(this.props.text)} disabled={this.props.disabled}>
+      <TouchableOpacity onPress={() => this.props.onClick(this.props.text, this.props.row)} disabled={this.props.disabled}>
         <View style={styles.dayStyle}>
             <Text style={{textAlign: 'center'}}>{this.props.text}</Text>
         </View>
@@ -44,6 +44,7 @@ CalendarCell.propTypes = {
   disabled: PropTypes.bool,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
+  row: PropTypes.number,
 };
 
 export default CalendarCell;
