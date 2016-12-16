@@ -23,6 +23,8 @@ class CalendarTable extends React.Component {
             activeRowPos: 0,
             activeRowNumber: 0,
             zIndex: 0,
+            promptSide: 'center',
+            columnSelected: 1,
         };
 
         this.onCellSelected = this.onCellSelected.bind(this);
@@ -50,6 +52,7 @@ class CalendarTable extends React.Component {
                       <CalendarCell
                         width={this.state.cellWidth}
                         key={index}
+                        column={index}
                         row={rowIndex}
                         text={day.toString()}
                         selected={day == this.state.selectedCell ? true : false}
@@ -77,6 +80,8 @@ class CalendarTable extends React.Component {
                 onClose={this.closePrompt}
                 zIndex={this.state.zIndex}
                 activeRowNumber={this.state.activeRowNumber}
+                promptSide={this.state.promptSide}
+                xArrowPos={this.state.cellWidth * this.state.columnSelected - this.state.cellWidth}
               />
               <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
                 const {x, y, width, height} = e.nativeEvent.layout;
@@ -92,11 +97,20 @@ class CalendarTable extends React.Component {
         );
     }
 
-    onCellSelected(dateValue, rowIndex){
+    onCellSelected(dateValue, rowIndex, columnIndex){
       const state = {...this.state};
       const row = rowIndex + 1;
       const topPos = state.tableDateHeight * row + state.titleHeight + 20;
+      let promptSide = 'center';
 
+      switch(columnIndex){
+        case 0:
+          promptSide = 'left';
+          break;
+        case 6:
+          promptSide = 'right';
+          break;
+      }
 
       this.setState({
         selectedCell: dateValue,
@@ -104,6 +118,8 @@ class CalendarTable extends React.Component {
         promptVisibility: 1,
         zIndex: 10,
         activeRowNumber: rowIndex,
+        promptSide: promptSide,
+        columnSelected: columnIndex + 1,
       });
     }
 

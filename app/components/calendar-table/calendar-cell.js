@@ -21,7 +21,7 @@ class CalendarCell extends React.Component {
       dayStyle: {
         width: this.props.width,
         height: this.props.width,
-        borderRadius: this.props.width / 2,
+        borderRadius: this.props.width * 0.5,
         backgroundColor: this.props.selected ? 'rgba(0,0,0, 0.5)' : 'rgba(255,255,255, 0.0)',
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,7 +29,7 @@ class CalendarCell extends React.Component {
     });
 
     return (
-      <TouchableOpacity onPress={() => this.props.onClick(this.props.text, this.props.row)} disabled={this.props.disabled}>
+      <TouchableOpacity onPress={() => this.props.onClick(this.props.text, this.props.row, this.props.column)} disabled={this.props.disabled}>
         <View style={styles.dayStyle}>
             <Text style={{textAlign: 'center'}}>{this.props.text}</Text>
         </View>
@@ -45,6 +45,7 @@ CalendarCell.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   row: PropTypes.number,
+  column: PropTypes.number,
 };
 
 export default CalendarCell;
