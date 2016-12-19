@@ -16,15 +16,15 @@ class DatePrompt extends React.Component {
     switch(this.props.promptSide){
       case 'left':
         xPos = 10;
-        xArrowPos = 20;
+        xArrowPos = Dimensions.get('window').width *.04;
         break;
       case 'right':
         xPos = Dimensions.get('window').width * 0.125 + 10;
-        xArrowPos = Dimensions.get('window').width * 0.75 - 20;
+        xArrowPos = Dimensions.get('window').width * 0.675;
         break;
       default:
         xPos = Dimensions.get('window').width * 0.125 - 10;
-        xArrowPos = this.props.xArrowPos - 10;
+        xArrowPos = this.props.xArrowPos - Dimensions.get('window').width *.02 ;
         break;
     }
 
@@ -55,7 +55,7 @@ class DatePrompt extends React.Component {
         width: Dimensions.get('window').width * 0.125,
         height: Dimensions.get('window').width * 0.125,
       },
-      arrow:{
+      arrowUp:{
         position: 'absolute',
         left: xArrowPos,
         top: -10,
@@ -70,6 +70,23 @@ class DatePrompt extends React.Component {
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
         borderBottomColor: '#333',
+        borderLeftColor: 'transparent',
+      },
+      arrowDown:{
+        position: 'absolute',
+        left: xArrowPos,
+        top: 56,
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderTopWidth: 10,
+        borderRightWidth: 5,
+        borderBottomWidth: 0,
+        borderLeftWidth: 5,
+        borderTopColor: '#333',
+        borderRightColor: 'transparent',
+        borderBottomColor: 'transparent',
         borderLeftColor: 'transparent',
       },
     });
@@ -88,7 +105,7 @@ class DatePrompt extends React.Component {
           imageSrc={require('../../assets/icon-prompt-ok.png')}
           btnStyle={styles.buttonPrompt}
         />
-      <View style={styles.arrow}/>
+        <View style={this.props.activeRowNumber >= 2 ? styles.arrowDown : styles.arrowUp}/>
       </View>
     );
   }
