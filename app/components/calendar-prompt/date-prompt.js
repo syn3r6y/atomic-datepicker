@@ -120,6 +120,7 @@ DatePrompt.propTypes = {
   activeRowNumber: PropTypes.number,
   promptSide: PropTypes.string,
   xArrowPos: PropTypes.number,
+  calendarSize: PropTypes.array,
 };
 
 export default DatePrompt;

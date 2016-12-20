@@ -18,6 +18,9 @@ class Calendar extends React.Component {
       dateMonths: ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"],
       currentMonth: '',
       currentYear: 0,
+      renderedWidth: 0,
+      renderedHeight: 0,
+      allActionsDisabled: false,
     };
 
     this.populateDays = this.populateDays.bind(this);
@@ -25,6 +28,7 @@ class Calendar extends React.Component {
     this.previousMonth = this.previousMonth.bind(this);
     this.nextYear = this.nextYear.bind(this);
     this.previousYear = this.previousYear.bind(this);
+    this.disableAllActions = this.disableAllActions.bind(this);
   }
 
   componentWillMount(){
@@ -42,19 +46,23 @@ class Calendar extends React.Component {
   render() {
       return (
           <View style={styles.wrapper}>
-              <CalendarHeader
-                month={this.state.currentMonth}
-                year={this.state.currentYear}
-                nextMonthClick={this.nextMonth}
-                previousMonthClick={this.previousMonth}
-                nextYearClick={this.nextYear}
-                previousYearClick={this.previousYear}
-              />
-              <CalendarTable
-                days={this.state.dateDays}
-                month={this.state.currentMonth}
-                year={this.state.currentYear.toString()}
-              />
+
+            <CalendarHeader
+              month={this.state.currentMonth}
+              year={this.state.currentYear}
+              nextMonthClick={this.nextMonth}
+              previousMonthClick={this.previousMonth}
+              nextYearClick={this.nextYear}
+              previousYearClick={this.previousYear}
+              allActionsDisabled={this.state.allActionsDisabled}
+            />
+            <CalendarTable
+              days={this.state.dateDays}
+              month={this.state.currentMonth}
+              year={this.state.currentYear.toString()}
+              allActionsDisabled={this.state.allActionsDisabled}
+              disableActions={this.disableAllActions}
+            />
           </View>
       );
   }
@@ -141,13 +149,19 @@ class Calendar extends React.Component {
 
     this.populateDays(state.dateMonths.indexOf(month), year);
   }
+
+  disableAllActions(){
+    this.setState({
+      allActionsDisabled: !this.state.allActionsDisabled,
+    });
+  }
 }
 
 const styles = StyleSheet.create({
   wrapper: {
     width: Dimensions.get('window').width * 0.95,
     backgroundColor: '#FFF',
-  }
+  },
 });
 
 export default Calendar;

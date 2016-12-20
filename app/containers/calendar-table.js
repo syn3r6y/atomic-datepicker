@@ -50,6 +50,7 @@ class CalendarTable extends React.Component {
                 } else{
                     return (
                       <CalendarCell
+                        disabled={this.props.allActionsDisabled}
                         width={this.state.cellWidth}
                         key={index}
                         column={index}
@@ -120,13 +121,19 @@ class CalendarTable extends React.Component {
         activeRowNumber: rowIndex,
         promptSide: promptSide,
         columnSelected: columnIndex + 1,
+      }, () => {
+        this.props.disableActions();
       });
+
+
     }
 
     closePrompt(){
       this.setState({
         promptVisibility: 0,
         zIndex: 0,
+      }, () => {
+        this.props.disableActions();
       });
     }
 }
@@ -148,6 +155,9 @@ const styles = StyleSheet.create({
 CalendarTable.propTypes = {
   month: PropTypes.string,
   year: PropTypes.string,
+  days: PropTypes.array,
+  allActionsDisabled: PropTypes.bool,
+  disableActions: PropTypes.func,
 };
 
 export default CalendarTable;

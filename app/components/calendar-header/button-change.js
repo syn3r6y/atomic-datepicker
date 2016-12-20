@@ -16,13 +16,13 @@ class ButtonChange extends React.Component {
 
         return (
           variant  ?
-          <TouchableOpacity onPress={this.props.onClick}>
+          <TouchableOpacity onPress={this.props.onClick} disabled={this.props.disabled}>
             <View style={[styles.wrapper, styles.rotate]}>
               <Image style={styles.image} source={arrowImg}/>
             </View>
           </TouchableOpacity>
           :
-          <TouchableOpacity onPress={this.props.onClick}>
+          <TouchableOpacity onPress={this.props.onClick} disabled={this.props.disabled}>
             <View style={styles.wrapper}>
               <Image style={styles.image} source={arrowImg}/>
             </View>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
 ButtonChange.propTypes = {
     variant: PropTypes.string,
     onClick: PropTypes.func,
+    disabled: PropTypes.bool,
 };
 
 export default ButtonChange;
