@@ -150,9 +150,9 @@ class Calendar extends React.Component {
     this.populateDays(state.dateMonths.indexOf(month), year);
   }
 
-  disableAllActions(){
+  disableAllActions(value){
     this.setState({
-      allActionsDisabled: !this.state.allActionsDisabled,
+      allActionsDisabled: value,
     });
   }
 }

@@ -122,7 +122,7 @@ class CalendarTable extends React.Component {
         promptSide: promptSide,
         columnSelected: columnIndex + 1,
       }, () => {
-        this.props.disableActions();
+        this.props.disableActions(true);
       });
 
 
@@ -132,8 +132,9 @@ class CalendarTable extends React.Component {
       this.setState({
         promptVisibility: 0,
         zIndex: 0,
+        selectedCell: 0,
       }, () => {
-        this.props.disableActions();
+        this.props.disableActions(false);
       });
     }
 }
