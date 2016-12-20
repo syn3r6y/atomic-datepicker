@@ -1,5 +1,5 @@
 // Import Libraries
-import React from 'react';
+import React, { PropTypes } from 'react';
 import {
   View,
   StyleSheet,
@@ -62,6 +62,7 @@ class Calendar extends React.Component {
               year={this.state.currentYear.toString()}
               allActionsDisabled={this.state.allActionsDisabled}
               disableActions={this.disableAllActions}
+              onClose={this.props.onClose}
             />
           </View>
       );
@@ -157,10 +158,16 @@ class Calendar extends React.Component {
   }
 }
 
+Calendar.propTypes = {
+  onClose: PropTypes.func,
+};
+
 const styles = StyleSheet.create({
   wrapper: {
     width: Dimensions.get('window').width * 0.95,
     backgroundColor: '#FFF',
+    borderColor: '#DDD',
+    borderWidth: 1,
   },
 });
 

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 
 import CalendarCell from '../components/calendar-table/calendar-cell';
@@ -83,6 +82,7 @@ class CalendarTable extends React.Component {
                 activeRowNumber={this.state.activeRowNumber}
                 promptSide={this.state.promptSide}
                 xArrowPos={this.state.cellWidth * this.state.columnSelected - this.state.cellWidth}
+                onOkay={this.props.onClose}
               />
               <View style={[styles.dayRow, styles.titleBar]} onLayout={(e) => {
                 const {x, y, width, height} = e.nativeEvent.layout;
@@ -141,15 +141,11 @@ class CalendarTable extends React.Component {
 
 const styles = StyleSheet.create({
   dayRow: {
-    backgroundColor: '#EDEDED',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   titleBar:{
     paddingVertical: 20
-  },
-  day:{
-    // backgroundColor: '#CCC',
   },
 });
 
@@ -159,6 +155,7 @@ CalendarTable.propTypes = {
   days: PropTypes.array,
   allActionsDisabled: PropTypes.bool,
   disableActions: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default CalendarTable;

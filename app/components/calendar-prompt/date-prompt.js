@@ -104,6 +104,7 @@ class DatePrompt extends React.Component {
         <ButtonPrompt
           imageSrc={require('../../assets/icon-prompt-ok.png')}
           btnStyle={styles.buttonPrompt}
+          btnClick={() => this.props.onOkay(this.props.text)}
         />
         <View style={this.props.activeRowNumber >= 2 ? styles.arrowDown : styles.arrowUp}/>
       </View>
@@ -121,6 +122,7 @@ DatePrompt.propTypes = {
   promptSide: PropTypes.string,
   xArrowPos: PropTypes.number,
   calendarSize: PropTypes.array,
+  onOkay: PropTypes.func,
 };
 
 export default DatePrompt;
